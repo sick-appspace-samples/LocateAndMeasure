@@ -1,7 +1,7 @@
 ## LocateAndMeasure
 Measuring part dimensions, independent on rotation and translation
 ### Description
-Teaching the shape of a ”golden part”, measuring edge-to-edge distance, 
+Teaching the shape of a golden part, measuring edge-to-edge distance, 
 circle radius etc. Matching new, identical objects with full rotation 
 in the image and measuring the same dimensions.
 ### How to Run
