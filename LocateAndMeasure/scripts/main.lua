@@ -31,8 +31,8 @@ print('AppEngine Version: ' .. Engine.getVersion())
 
 local DELAY = 2000 -- ms between visualization steps for demonstration purpose
 
--- Creating global v
-local v = View.create()
+-- Creating global viewer
+local v = View.create("viewer2D1")
 
 -- Loading necessary Scripts
 require('GraphicsSetup')                     -- Setup of graphical overlay attributes
