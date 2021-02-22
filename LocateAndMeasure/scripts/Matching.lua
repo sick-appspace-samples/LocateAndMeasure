@@ -17,7 +17,15 @@ local function teachShape(refImage, imageID, viewer)
   -- Teaching edge matcher
   matcher = Image.Matching.EdgeMatcher.create()
   matcher:setEdgeThreshold(50)
-  matcher:setDownsampleFactor(2)
+  local wantedDownsampleFactor = 2
+  -- Check if wanted downsample factor is supported by device
+  minDsf,_ = matcher:getDownsampleFactorLimits(refImage)
+  if (minDsf > wantedDownsampleFactor) then
+    print("Cannot use downsample factor " .. wantedDownsampleFactor .. " will use " .. minDsf .. " instead") 
+    wantedDownsampleFactor = minDsf
+  end
+  matcher:setDownsampleFactor(wantedDownsampleFactor)
+
   local teachPose = matcher:teach(refImage, teachRegion)
 
   -- Show model points overlayed over teach image
