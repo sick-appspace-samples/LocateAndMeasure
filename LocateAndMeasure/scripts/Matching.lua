@@ -1,18 +1,22 @@
+---@alias Pose {teachPose: Transform, modelPoints: Point[]}
+
 local deco = require('GraphicsSetup')
 
 local matcher
 
--- Teach the shape of the object
---@teachShape(refImage:Image, imageID:string)
-local function teachShape(refImage, imageID, viewer)
+--- Teach the shape of the object
+---@param refImage Image
+---@param viewer View
+---@return Pose
+local function teachShape(refImage, viewer)
   -- Adding "Reference" text overlay
-  viewer:addText('Reference', deco.textDeco, nil, imageID)
+  viewer:addText('Reference', deco.textDeco)
 
   -- Defining teach region
   local teachRectCenter = Point.create(310, 100)
   local teachRect = Shape.createRectangle(teachRectCenter, 170, 125, 0)
   local teachRegion = teachRect:toPixelRegion(refImage)
-  viewer:addShape(teachRect, deco.decoRegion, nil, imageID)
+  viewer:addShape(teachRect, deco.decoRegion)
 
   -- Teaching edge matcher
   matcher = Image.Matching.EdgeMatcher.create()
@@ -31,9 +35,7 @@ local function teachShape(refImage, imageID, viewer)
   -- Show model points overlayed over teach image
   local modelPoints = matcher:getEdgePoints() -- Model points in model's local coord syst
   local teachPoints = Point.transform(modelPoints, teachPose)
-  for _, point in ipairs(teachPoints) do
-    viewer:addShape(point, deco.decoTeach, nil, imageID)
-  end
+  viewer:addShape(teachPoints, deco.decoTeach)
   viewer:present()
 
   return {
@@ -42,16 +44,17 @@ local function teachShape(refImage, imageID, viewer)
   }
 end
 
--- Match the shape of the object
---@matchShape(refImage:Image, imageID:string)
-local function matchShape(refImage, imageID, viewer, pose)
+--- Match the shape of the object
+---@param refImage Image
+---@param viewer View
+---@param pose Pose
+---@return {poses: Transform[]}
+local function matchShape(refImage, viewer, pose)
   local poses, _ = matcher:match(refImage)
 
   -- Show model points as overlay
   local livePoints = Point.transform(pose.modelPoints, poses[1])
-  for _, point in ipairs(livePoints) do
-    viewer:addShape(point, deco.decoFeature, nil, imageID)
-  end
+  viewer:addShape(livePoints, deco.decoFeature)
   return {
     poses = poses
   }
