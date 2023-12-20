@@ -1,7 +1,6 @@
 -- Setup text attributes
 local textDeco = View.TextDecoration.create() -- Large text, top left corner
-textDeco:setSize(40)
-textDeco:setPosition(20, 40)
+textDeco:setSize(40):setPosition(20, 40)
 
 local resultTextSize = 20
 
@@ -21,36 +20,25 @@ local resultTextI = View.TextDecoration.create() -- Intersection overlay
 resultTextI:setSize(resultTextSize)
 
 -- Setup of shape decorations
-local decoTeach = View.ShapeDecoration.create()
-decoTeach:setPointSize(5)
-decoTeach:setLineColor(0, 0, 230) -- Blue color scheme for "Teach" mode
-decoTeach:setPointType('DOT')
-decoTeach:setLineWidth(3)
+local decoTeach = View.ShapeDecoration.create():setPointSize(5):setLineWidth(3)
+decoTeach:setPointType('DOT'):setLineColor(0, 0, 230) -- Blue color scheme for "Teach" mode
 
-local decoRegion = View.ShapeDecoration.create()
+local decoRegion = View.ShapeDecoration.create():setLineWidth(3)
 decoRegion:setLineColor(230, 230, 0) -- Yellow
-decoRegion:setLineWidth(3)
 
-local decoFeature = View.ShapeDecoration.create()
+local decoFeature = View.ShapeDecoration.create():setLineWidth(4)
 decoFeature:setLineColor(75, 75, 255) -- Blue
-decoFeature:setLineWidth(4)
 
-local decoDot = View.ShapeDecoration.create()
-decoDot:setLineColor(0, 230, 0) -- Red
-decoDot:setPointType('DOT')
-decoDot:setPointSize(10)
+local decoDot = View.ShapeDecoration.create():setPointSize(10)
+decoDot:setPointType('DOT'):setLineColor(0, 230, 0) -- Red
 
-local decoPass = View.ShapeDecoration.create()
-decoPass:setPointSize(5)
-decoPass:setLineColor(0, 230, 0) -- Green color scheme for "Pass" mode
+local decoPass = View.ShapeDecoration.create():setLineWidth(3)
+decoPass:setPointSize(5):setLineColor(0, 230, 0) -- Green color scheme for "Pass" mode
 decoPass:setPointType('DOT')
-decoPass:setLineWidth(3)
 
-local decoFail = View.ShapeDecoration.create()
-decoFail:setPointSize(5)
-decoFail:setLineColor(230, 0, 0) -- Red color scheme for "Fail" results
+local decoFail = View.ShapeDecoration.create():setLineWidth(3)
+decoFail:setPointSize(5):setLineColor(230, 0, 0) -- Red color scheme for "Fail" results
 decoFail:setPointType('DOT')
-decoFail:setLineWidth(3)
 
 return {
   textDeco = textDeco,

@@ -6,7 +6,7 @@ print('AppEngine Version: ' .. Engine.getVersion())
 local DELAY = 2000 -- ms between visualization steps for demonstration purpose
 
 -- Creating global viewer
-local v = View.create("viewer2D1")
+local v = View.create()
 
 -- Loading necessary Scripts
 require('GraphicsSetup')                     -- Setup of graphical overlay attributes
@@ -24,13 +24,13 @@ local function main()
   -- Teaching
   local refImage = Image.load('resources/Teach.bmp')
   v:clear()
-  local imageID = v:addImage(refImage)
+  v:addImage(refImage)
   v:present()
 
-  local teachPose = matching.teach(refImage, imageID, v)
-  local features = featuresFunc.defineFeatures(imageID, v)
-  local fitted = featuresFunc.fitFeatures(refImage, imageID, v, features)
-  local positions = measure(imageID, v, fitted, features)
+  local teachPose = matching.teach(refImage, v)
+  local features = featuresFunc.defineFeatures(v)
+  local fitted = featuresFunc.fitFeatures(refImage, v, features)
+  local positions = measure(v, fitted, features)
   fixture.setFixture(teachPose, features, positions)
 
   Script.sleep(DELAY) -- for demonstration purpose only
@@ -39,14 +39,14 @@ local function main()
   for i = 1, 3 do
     local liveImage = Image.load('resources/' .. i .. '.bmp')
     v:clear()
-    imageID = v:addImage(liveImage)
+    v:addImage(liveImage)
     v:present()
 
-    local matchPose = matching.match(liveImage, imageID, v, teachPose)
+    local matchPose = matching.match(liveImage, v, teachPose)
     local fixt = fixture.getFixture(matchPose)
-    fitted = featuresFunc.fitFeatures(liveImage, imageID, v, fixt)
-    local measuredValues = measure(imageID, v, fitted, features)
-    passFailGraphics(imageID, v, measuredValues)
+    fitted = featuresFunc.fitFeatures(liveImage, v, fixt)
+    local measuredValues = measure(v, fitted, features)
+    passFailGraphics(v, measuredValues)
 
     Script.sleep(DELAY) -- for demonstration purpose only
   end

@@ -1,6 +1,12 @@
+---@alias Fixture {outerCircle: Shape, edgeRect1: Shape, edgeRect2: Shape, edgeRect3: Shape, edgeRect4: Shape, edgeRect5: Shape, angle1: number, angle2: number, angle3: number, angle4: number, angle5: number, textPosRadius: Point, textPosDist1: Point, textPosDist2: Point, textPosIntersection: Point, textPosAngle: Point}
+
+---@type Image.Fixture
 local fixt
 
--- Defining fixture for automatic pose adjustment
+---Defining fixture for automatic pose adjustment
+---@param pose Pose
+---@param features Features
+---@param positions MeasuredValues
 local function setFixture(pose, features, positions)
   fixt = Image.Fixture.create()
   fixt:setReferencePose(pose.teachPose)
@@ -22,7 +28,9 @@ local function setFixture(pose, features, positions)
   fixt:appendPoint('textPosAngle', positions.textPosAngle)
 end
 
--- Retrieving the pose-transformed shapes, angles and points
+---Retrieving the pose-transformed shapes, angles and points
+---@param matchPoses {poses: Transform[]}
+---@return Fixture
 local function getFixture(matchPoses)
   fixt:transform(matchPoses.poses[1])
   local outerCircle = fixt:getShape('outerCircle')
